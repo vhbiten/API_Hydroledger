@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  password  String
+  role      UserRole @default(querier)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  email     String?  @unique
+}
+
+model pocos {
+  id         Int      @id @default(autoincrement())
+  dataColeta DateTime
+  numeroPoco Int      @map("numero_poco")
+  hidrometro Float
+  horimetro  Float
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+}
+
+model efluentes {
+  id            Int      @id @default(autoincrement())
+  dataColeta    DateTime
+  vazao1        Float
+  vazao2        Float
+  vazao3        Float
+  ph            Float
+  temperatura   Float
+  condutividade Float
+  SD30          Float
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+}
+
+model cloroResidual {
+  id              Int      @id @default(autoincrement())
+  dataColeta      DateTime
+  cozinha         Float
+  saidaTratamento Float
+  bebedouro1      Float
+  bebedouro2      Float
+  bebedouro3      Float
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+}
+
+enum UserRole {
+  editor
+  querier
+}
